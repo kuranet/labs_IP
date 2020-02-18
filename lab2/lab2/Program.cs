@@ -10,7 +10,9 @@ namespace lab2
     public class Student
     {
         public string NameString { get; set; }
-        public int Mark1, Mark2, Mark3, Mark4, Mark5;
+        public int[] Mark = new int[5];
+        public float mean;
+
     }
 
 
@@ -34,20 +36,25 @@ namespace lab2
                 var temp = students[index].NameString.Split(',');
                 if (temp[6] == "FALSE") {
                     students[index].NameString = temp[0];
-                    students[index].Mark1 = Convert.ToInt32(temp[1]);
-                    students[index].Mark2 = Convert.ToInt32(temp[2]);
-                    students[index].Mark3 = Convert.ToInt32(temp[3]);
-                    students[index].Mark4 = Convert.ToInt32(temp[4]);
-                    students[index].Mark5 = Convert.ToInt32(temp[5]);
+                    for(int j = 1; j < 6; j++)
+                    {
+                        students[index].Mark[j-1] = Convert.ToInt32(temp[j]);
+                    }
                 }
                 else
                 {
                     students.RemoveRange(students.Count - 1, 1);
                 }
             }
-            for (int i = 0; i < students.Count; i++)
+            foreach (Student student in students)
             {
-                Console.WriteLine(students[i].NameString);
+                float SumBal = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    SumBal += student.Mark[i];
+                }
+                student.mean = SumBal / 5;
+                Console.WriteLine($"{student.NameString} {student.mean}");
             }
 
             Console.ReadKey();
