@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,11 @@ namespace lab2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Henlo!");
+            string dirName;
+            dirName = Directory.GetCurrentDirectory() + '\\';
+            dirName += Console.ReadLine();
+            bool lab = Directory.Exists(dirName);
+            Console.WriteLine(lab);
             Console.ReadKey();
         }
     }
