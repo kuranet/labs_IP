@@ -12,7 +12,6 @@ namespace lab2
         public string NameString;
         public int[] Mark = new int[5];
         public float mean;
-
     }
 
 
@@ -21,12 +20,16 @@ namespace lab2
         static void Main(string[] args)
         {
             string dirName;
-            dirName = Directory.GetCurrentDirectory()+"\\lab2\\";
-            string pathToFile = dirName + "input.csv";
+            dirName = Directory.GetCurrentDirectory()+$"\\{Console.ReadLine()}\\";
 
-
+            string[] Path = Directory.GetFiles(dirName, "*.csv");
             List<Student> students = new List<Student>();
-            FileRead(pathToFile, ref students);
+
+
+            foreach (string pathToFile in Path)
+            {
+                FileRead(pathToFile, ref students);
+            }            
 
             MeanMark(ref students);
 
