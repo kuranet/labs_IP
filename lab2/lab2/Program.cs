@@ -9,9 +9,25 @@ namespace lab2
 {
     public class Student
     {
-        public string NameString;
-        public int[] Mark = new int[5];
-        public float mean;
+        string nameString;
+        const int n = 5;
+        int[] mark = new int[n];
+        float mean;
+
+        public Student(string name, int[] marks) { nameString = name; mark = marks; }
+
+        public string Name { get { return nameString; } }
+        public float Mean { get { return mean; } set { mean = value; } }
+
+        public void MeanMark()
+        {
+            float temp = 0;
+            for (int i = 0; i < n; i++)
+            {
+                temp += this.mark[i];
+            }
+            this.Mean = temp / 5;
+        }
     }
 
 
@@ -49,20 +65,19 @@ namespace lab2
             
             for (int i = 0; i < numInFIle; i++)
             {
-                students.Add(new Student { NameString = sr.ReadLine() });
-                int index = students.Count - 1;
-                var temp = students[index].NameString.Split(',');
+                string str = sr.ReadLine();
+                var temp = str.Split(',');
+                int[] mark = new int[5];
+
                 if (temp[6] == "FALSE")
                 {
-                    students[index].NameString = temp[0];
                     for (int j = 1; j < 6; j++)
                     {
-                        students[index].Mark[j - 1] = Convert.ToInt32(temp[j]);
+                        mark[j - 1] = Convert.ToInt32(temp[j]);
                     }
-                }
-                else
-                {
-                    students.RemoveRange(students.Count - 1, 1);
+
+                    students.Add(new Student(temp[0], mark));
+                    
                 }
             }
         }
@@ -71,12 +86,7 @@ namespace lab2
         {
             foreach (Student student in students)
             {
-                float SumBal = 0;
-                for (int i = 0; i < 5; i++)
-                {
-                    SumBal += student.Mark[i];
-                }
-                student.mean = SumBal / 5;
+                student.MeanMark();
             }
         }
 
@@ -86,11 +96,11 @@ namespace lab2
             {
                 for (int j = 0; j < students.Count - i - 1; j++)
                 {
-                    if (students[j].mean < students[j + 1].mean)
+                    if (students[j].Mean < students[j + 1].Mean)
                     {
-                        float temp = students[j].mean;
-                        students[j].mean = students[j + 1].mean;
-                        students[j + 1].mean = temp;
+                        float temp = students[j].Mean;
+                        students[j].Mean = students[j + 1].Mean;
+                        students[j + 1].Mean = temp;
                     }
                 }
             }
@@ -103,9 +113,9 @@ namespace lab2
                 int stipNumber = (int)(students.Count * 0.4);
                 for (int i = 0; i < stipNumber; i++)
                 {
-                    sw.WriteLine(students[i].NameString + ' ' + students[i].mean);
+                    sw.WriteLine(students[i].Name + ' ' + students[i].Mean);
                 }
-                Console.WriteLine($"Last ball {students[Convert.ToInt16(students.Count * 0.4)].mean}");
+                Console.WriteLine($"Last ball {students[Convert.ToInt16(students.Count * 0.4)].Mean}");
             }
             
         }
