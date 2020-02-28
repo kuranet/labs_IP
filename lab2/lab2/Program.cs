@@ -35,7 +35,7 @@ namespace lab2
 
             Swap(ref students);
 
-            ConsoleOut(students);
+            FileWrite(dirName+"rating.txt", students);
 
             Console.ReadKey();
         }
@@ -96,13 +96,18 @@ namespace lab2
             }
         }
 
-        static void ConsoleOut(List<Student> students)
+        static void FileWrite(string pathToFile, List<Student> students)
         {
-            int stipNumber = (int)(students.Count * 0.4);
-            for (int i = 0; i < stipNumber; i++)
+            using (StreamWriter sw = new StreamWriter(pathToFile, false, System.Text.Encoding.Default))
             {
-                Console.WriteLine($"{students[i].NameString} {students[i].mean}");
+                int stipNumber = (int)(students.Count * 0.4);
+                for (int i = 0; i < stipNumber; i++)
+                {
+                    sw.WriteLine(students[i].NameString + ' ' + students[i].mean);
+                }
+                Console.WriteLine($"Last ball {students[Convert.ToInt16(students.Count * 0.4)].mean}");
             }
+            
         }
     }
 }
