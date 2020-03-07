@@ -6,30 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace lab2
-{
-    public class Student
-    {
-        string nameString;
-        const int n = 5;
-        int[] mark = new int[n];
-        float mean;
-
-        public Student(string name, int[] marks) { nameString = name; mark = marks; }
-
-        public string Name { get { return nameString; } }
-        public float Mean { get { return mean; } set { mean = value; } }
-
-        public void MeanMark()
-        {
-            float temp = 0;
-            for (int i = 0; i < n; i++)
-            {
-                temp += this.mark[i];
-            }
-            this.Mean = temp / 5;
-        }
-    }
-
+{   
 
     class Program
     {
@@ -51,7 +28,7 @@ namespace lab2
 
             Swap(ref students);
 
-            FileWrite(dirName+"rating.txt", students);
+            FileWrite(Directory.GetCurrentDirectory()+"\\rating.csv", students);
 
             Console.ReadKey();
         }
@@ -80,6 +57,7 @@ namespace lab2
                     
                 }
             }
+            sr.Close();
         }
 
         static void MeanMark(ref List<Student>students)
@@ -108,16 +86,17 @@ namespace lab2
 
         static void FileWrite(string pathToFile, List<Student> students)
         {
-            using (StreamWriter sw = new StreamWriter(pathToFile, false, System.Text.Encoding.Default))
-            {
+            StreamWriter sw = new StreamWriter(pathToFile, false, System.Text.Encoding.Default);
+            
                 int stipNumber = (int)(students.Count * 0.4);
                 for (int i = 0; i < stipNumber; i++)
                 {
                     sw.WriteLine(students[i].Name + ' ' + students[i].Mean);
                 }
-                Console.WriteLine($"Last ball {students[Convert.ToInt16(students.Count * 0.4)].Mean}");
-            }
+                Console.WriteLine($"Last ball {students[stipNumber-1].Mean}");
             
+            sw.Flush();
+            sw.Close();
         }
     }
 }
